@@ -11,7 +11,7 @@ class Loader
     /**
      * Stores the single instance
      */
-    private static $instance;
+    private static $instance = null;
     /**
      * Contains an associative array of namespaces and their directory path
      * @var array
@@ -83,7 +83,7 @@ class Loader
     /**
      * @return associative array of registered namespaces
      */
-    private static function getNamespace()
+    private static function getNamespaces()
     {
         return self::$namespaces;
     }
