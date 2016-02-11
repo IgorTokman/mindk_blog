@@ -63,7 +63,7 @@ class Loader
     private static function load($classname)
     {
         /**
-         * Separate the full classname into parts to compare namespace to its directory path
+         * Separates the full classname into parts to compare namespace to its directory path
          */
         $pathParts = explode('\\',$classname);
 
