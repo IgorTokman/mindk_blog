@@ -74,7 +74,7 @@ class Response
     }
 
     /**
-     * Returns the headers 
+     * Returns the headers
      * @return array of headers set by the user
      */
     public function getHeaders(){
