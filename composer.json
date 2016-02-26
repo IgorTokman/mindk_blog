@@ -1,0 +1,17 @@
+{
+  "name": "mindk_blog",
+  "authors": [
+    {
+      "name": "Igor Tokman",
+      "email": "igortokman@ukr.net"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Framework\\": "framework/",
+      "Blog\\": "src/Blog/"
+    }
+  }
+}
