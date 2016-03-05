@@ -43,6 +43,6 @@ class Registry
      */
     public static function setConfigsArr($configs_arr = array()){
         foreach($configs_arr as $configName => $config)
-            self::setConfigs($configName, $config);
+            self::setConfig($configName, $config);
     }
 }
