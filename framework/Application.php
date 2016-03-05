@@ -8,6 +8,8 @@
 
 namespace Framework;
 
+use Framework\DI\Registry;
+use Framework\DI\Service;
 use Framework\Exception\HttpNotFoundException;
 use Framework\Exception\WrongResponseTypeException;
 use Framework\Response\Response;
@@ -25,7 +27,10 @@ class Application
 
     public function run()
     {
-        $router = new Router(include('../app/config/routes.php'));
+        //Registration all configuration vars in the config container
+        Registry::setConfigArr(include('../app/config/config.php'));
+        $router = new Router(Registry::getConfig('routes'));
+        Service::set('router', $router);
         $route =  $router->parseRoute($_SERVER['REQUEST_URI']);
 
         try{

@@ -34,5 +34,4 @@ class Service
     public static function set($serviceName, $service){
         self::$services[$serviceName] = $service;
     }
-
 }
