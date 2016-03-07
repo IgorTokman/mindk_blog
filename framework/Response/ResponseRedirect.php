@@ -19,6 +19,6 @@ class ResponseRedirect extends Response
     public function __construct($route)
     {
         $this->setResponseCode(301);
-        $this->setHeaders(Location, $route);
+        $this->setHeaders('Location', $route);
     }
 }

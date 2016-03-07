@@ -34,7 +34,6 @@ class Renderer
      * @return html/text
      */
     public function renderMain($content){
-        //@TODO: set all required vars and closures..
         return $this->render($this->main_template, compact('content'), false);
     }
 
