@@ -8,11 +8,15 @@
 
 namespace Framework;
 
+use Framework\Model\ActiveRecord;
 use Framework\DI\Registry;
 use Framework\DI\Service;
 use Framework\Exception\HttpNotFoundException;
 use Framework\Helper\Helper;
+use Framework\Model\Article;
+use Framework\Model\Connection;
 use Framework\Router\Router;
+use Blog\Model\Post;
 
 class Application
 {
@@ -24,6 +28,7 @@ class Application
         //Registration all configuration vars in the config container
         Registry::setConfigsArr(include($configPath));
         Service::set('router', new Router(Registry::getConfig('routes')));
+        Service::set('dbConnection', Connection::get(Registry::getConfig('pdo')));
     }
 
     public function run()
