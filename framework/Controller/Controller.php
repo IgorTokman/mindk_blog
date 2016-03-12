@@ -9,8 +9,10 @@
 namespace Framework\Controller;
 
 
+use Framework\DI\Registry;
 use Framework\DI\Service;
 use Framework\Helper\Helper;
+use Framework\Renderer\Renderer;
 use Framework\Response\ResponseRedirect;
 
 abstract class Controller

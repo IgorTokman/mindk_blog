@@ -15,6 +15,7 @@ use Framework\Exception\HttpNotFoundException;
 use Framework\Helper\Helper;
 use Framework\Model\Article;
 use Framework\Model\Connection;
+use Framework\Request\Request;
 use Framework\Router\Router;
 use Blog\Model\Post;
 
@@ -29,6 +30,7 @@ class Application
         Registry::setConfigsArr(include($configPath));
         Service::set('router', new Router(Registry::getConfig('routes')));
         Service::set('dbConnection', Connection::get(Registry::getConfig('pdo')));
+        Service::set('request', new Request());
     }
 
     public function run()
