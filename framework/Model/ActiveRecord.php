@@ -10,6 +10,7 @@ namespace Framework\Model;
 
 
 use Framework\DI\Service;
+use Framework\Exception\DatabaseException;
 use PDO;
 
 abstract class ActiveRecord
@@ -101,12 +102,28 @@ abstract class ActiveRecord
     }
 
     /**
+     * @return empty array of the validation rules
+     */
+    public function getRules(){
+        return array();
+    }
+
+    /**
      * Insert or update db table
      */
     public function save(){
         $pdo = Service::get('dbConnection');
         $fields = $this->getFields();
         $tblName = static::getTable();
+
+        //Checks if the value meets the requirement
+        if(!empty($rulArr = $this->getRules()))
+        {
+            foreach($rulArr as $fieldName => $rules)
+                foreach($rules as $rule)
+                    if(!($rule->isValid($fields[$fieldName])))
+                        throw new DatabaseException("Invalid " . $fieldName . " value for saving in the DB. " . $rule->getMessage() );
+        }
 
         //Checks if such id already exists in the table
         if(in_array($this->id, self::getIds()))
