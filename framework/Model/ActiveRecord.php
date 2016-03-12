@@ -35,15 +35,6 @@ abstract class ActiveRecord
     }
 
     /**
-     * Finds records by email param
-     * @param string $email
-     * @return object
-     */
-    public static function findByEmail($email){
-        return self::findByParams(array('email' => $email))[0];
-    }
-
-    /**
      * Returns records by some parameters
      * @param array $params
      * @return array of table objects

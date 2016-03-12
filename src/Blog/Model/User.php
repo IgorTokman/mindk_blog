@@ -27,4 +27,13 @@ class User extends ActiveRecord implements UserInterface
     {
         return $this->role;
     }
+
+    /**
+     * Finds records by email param
+     * @param string $email
+     * @return object
+     */
+    public static function findByEmail($email){
+        return self::findByParams(array('email' => $email))[0];
+    }
 }

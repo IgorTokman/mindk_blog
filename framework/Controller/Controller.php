@@ -52,4 +52,12 @@ abstract class Controller
     public function redirect($url){
         return new ResponseRedirect($url);
     }
+
+    /**
+     * Gets the Request object
+     * @return Request object from service container
+     */
+    public function getRequest(){
+        return Service::get('request');
+    }
 }
