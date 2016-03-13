@@ -44,6 +44,7 @@ class Router
 
             if (preg_match($pattern, $url, $params)) {
                 $route_found = $route;
+                $route_found['params'] = array();
 
                 //Gets associative array of params
                 if (count($params) > 1) {
