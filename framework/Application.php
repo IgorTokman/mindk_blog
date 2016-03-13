@@ -31,6 +31,9 @@ class Application
         Service::set('router', new Router(Registry::getConfig('routes')));
         Service::set('dbConnection', Connection::get(Registry::getConfig('pdo')));
         Service::set('request', new Request());
+
+        //Sets the error display mode
+        Helper::errorReporting();
     }
 
     public function run()
@@ -49,9 +52,11 @@ class Application
                 throw new HttpNotFoundException("Route does not found");
         }
         catch(HttpNotFoundException $e){
+            echo $e->getMessage();
             // Render 404 or just show msg
         }
         catch(\Exception $e){
+            echo $e->getMessage();
             // Render 500 layout or just show msg
         }
     }

@@ -57,7 +57,8 @@ class Renderer
         if(file_exists($template_path)){
             ob_start();
             include($template_path);
-            $content = ob_end_clean();
+            $content = ob_get_contents();
+                ob_end_clean();
         }
         else
             throw new FileException("File " . $template_path . " does not found");

@@ -9,6 +9,7 @@
 namespace Framework\Helper;
 
 
+use Framework\DI\Registry;
 use Framework\Exception\ClassException;
 use Framework\Exception\WrongResponseTypeException;
 use Framework\Response\Response;
@@ -64,5 +65,21 @@ class Helper
         }
         else
             throw new ClassException("Class of controller does not found");
+    }
+
+    //Error control
+    public static function errorReporting() {
+
+        //Checks the development mode. If it is 'dev' shows all messages
+        if( Registry::getConfig("mode") === "dev" ) {
+            ini_set( 'display_errors', 'On' ) ;
+            ini_set( 'log_errors', 'Off' ) ;
+
+        //Otherwise writes the lof files
+        } else {
+            ini_set( 'display_errors', 'Off' ) ;
+            ini_set( 'error_log', __DIR__ . '/../../app/logs/' . 'errors_' . date( "Y_m_d" ) . '.log' ) ;
+            ini_set( 'log_errors', 'On' ) ;
+        }
     }
 }

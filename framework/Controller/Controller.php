@@ -13,6 +13,7 @@ use Framework\DI\Registry;
 use Framework\DI\Service;
 use Framework\Helper\Helper;
 use Framework\Renderer\Renderer;
+use Framework\Response\Response;
 use Framework\Response\ResponseRedirect;
 
 abstract class Controller
@@ -25,7 +26,7 @@ abstract class Controller
      */
     public function render($layout, $data = array()){
         // The full path to the view for the appropriate controller
-        $fullpath = realpath(Helper::getViewPath(get_class($this)) . $layout);
+        $fullpath = realpath(Helper::getViewPath(get_class($this)) . $layout . '.php');
 
         $renderer = new Renderer(Registry::getConfig('main_layout'));
         Service::set('renderer', $renderer);

@@ -33,6 +33,7 @@ class Connection
             try {
                 self::$db = new PDO($pdo['dns'], $pdo['user'], $pdo['password']);
             }catch (\PDOException $e){
+                echo $e->getMessage();
                 //die("Connection error " . $e->getMessage());
             }
         }
