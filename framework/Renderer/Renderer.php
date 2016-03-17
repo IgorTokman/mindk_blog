@@ -50,7 +50,7 @@ class Renderer
         $data['include'] = function($controllerName, $actionName, $params)
                                 {Helper::dispatch($controllerName, $actionName, $params);};
         $data['getRoute'] = function($route_name, $params = array())
-                                {Service::get('router')->buildRoute($route_name, $params);};
+                                {return Service::get('router')->buildRoute($route_name, $params);};
         extract($data);
 
         //Checks if template file exists
