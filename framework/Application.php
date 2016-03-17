@@ -18,6 +18,8 @@ use Framework\Model\Connection;
 use Framework\Request\Request;
 use Framework\Router\Router;
 use Blog\Model\Post;
+use Framework\Security\Security;
+use Framework\Session\Session;
 
 class Application
 {
@@ -31,6 +33,8 @@ class Application
         Service::set('router', new Router(Registry::getConfig('routes')));
         Service::set('dbConnection', Connection::get(Registry::getConfig('pdo')));
         Service::set('request', new Request());
+        Service::set('session', Session::getInstance());
+        Service::set('security', new Security());
 
         //Sets the error display mode
         Helper::errorReporting();
