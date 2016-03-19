@@ -32,7 +32,7 @@ class Security
      * @return true if user is authenticated else false
      */
     public function isAuthenticated(){
-        return !is_null($this->session->user);
+        return (!is_null($this->session->get('user')) && $this->verifyToken());
     }
 
     /**
@@ -47,6 +47,23 @@ class Security
      * @param UserInterface $user
      */
     public function setUser(UserInterface $user){
-        $this->session->user = $user;
+        $this->session->set('user', $user);
+    }
+
+    /**
+     * Creates a random token
+     * @return string
+     */
+    public function generateToken(){
+        return md5(uniqid(rand(),1));
+    }
+
+    /**
+     * Verifies token from session and form (method Post)
+     * @return bool
+     */
+    public function verifyToken(){
+        return (isset($_POST['token']) && !is_null($this->session->get('token'))
+            && ($_POST['token'] === $this->session->get('token')));
     }
 }

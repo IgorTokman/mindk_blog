@@ -28,8 +28,7 @@ abstract class Controller
         // The full path to the view for the appropriate controller
         $fullpath = realpath(Helper::getViewPath(get_class($this)) . $layout . '.php');
 
-        $renderer = new Renderer(Registry::getConfig('main_layout'));
-        Service::set('renderer', $renderer);
+        $renderer = Service::get('renderer');
         $content = $renderer->render($fullpath, $data);
 
         return new Response($content);
@@ -48,9 +47,13 @@ abstract class Controller
     /**
      * Redirection to another page
      * @param $url
+     * @param null $message
      * @return ResponseRedirect
      */
-    public function redirect($url){
+    public function redirect($url, $message = null){
+        if(!is_null($message))
+            Service::get('session')->addFlash('info', $message);
+
         return new ResponseRedirect($url);
     }
 

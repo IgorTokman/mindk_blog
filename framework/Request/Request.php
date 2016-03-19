@@ -74,7 +74,8 @@ class Request
      * @return Variable or false if it is incorrect
      */
     public function post($varName, $filterName = 'string'){
-        return filter_input(INPUT_POST, $varName, $this->getFilter($filterName));
+        $var = filter_input(INPUT_POST, $varName, $this->getFilter($filterName));
+        return ($varName === 'password')? md5($var) : $var;
     }
 
     /**

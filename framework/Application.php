@@ -8,6 +8,7 @@
 
 namespace Framework;
 
+use Framework\Exception\SecurityException;
 use Framework\Model\ActiveRecord;
 use Framework\DI\Registry;
 use Framework\DI\Service;
@@ -15,7 +16,10 @@ use Framework\Exception\HttpNotFoundException;
 use Framework\Helper\Helper;
 use Framework\Model\Article;
 use Framework\Model\Connection;
+use Framework\Renderer\Renderer;
 use Framework\Request\Request;
+use Framework\Response\Response;
+use Framework\Response\ResponseRedirect;
 use Framework\Router\Router;
 use Blog\Model\Post;
 use Framework\Security\Security;
@@ -35,6 +39,9 @@ class Application
         Service::set('request', new Request());
         Service::set('session', Session::getInstance());
         Service::set('security', new Security());
+        Service::set('renderer', new Renderer(Registry::getConfig('main_layout')));
+
+        Service::get('session')->set('token', Service::get('security')->generateToken());
 
         //Sets the error display mode
         Helper::errorReporting();
@@ -48,20 +55,30 @@ class Application
         try{
             //Checks if route is empty
             if(!empty($route)) {
+
+                //Verifies user role if it needs
+                if(array_key_exists('security', $route))
+                    if(is_null($user = Service::get('session')->get('user')) || !in_array($user->role, $route['security']))
+                        throw new SecurityException("Access is denied");
+
                 //Returns Response object
                 $response = Helper::dispatch($route['controller'], $route['action'], $route['params']);
-                $response->send();
             }
             else
-                throw new HttpNotFoundException("Route does not found");
+                throw new HttpNotFoundException("Route does not found", 404);
+        }
+        catch(SecurityException $e){
+            $response = new ResponseRedirect(Service::get('router')->buildRoute('login'));
         }
         catch(HttpNotFoundException $e){
-            echo $e->getMessage();
-            // Render 404 or just show msg
+            $response = new Response(Service::get('renderer')->render(Registry::getConfig('error_400'),
+                array('code' => $e->getCode(), 'message' => $e->getMessage())));
         }
         catch(\Exception $e){
-            echo $e->getMessage();
-            // Render 500 layout or just show msg
+            $response = new Response(Service::get('renderer')->render(Registry::getConfig('error_500'),
+                array('code' => $e->getCode(), 'message' => $e->getMessage())));
         }
+
+        $response->send();
     }
 }

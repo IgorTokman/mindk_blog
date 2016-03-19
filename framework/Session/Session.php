@@ -9,6 +9,8 @@
 namespace Framework\Session;
 
 
+use Framework\DI\Service;
+
 class Session
 {
     /**
@@ -58,29 +60,36 @@ class Session
     }
 
     /**
+     * Destroys all data registered to a current session
+     */
+    public function destroy(){
+        session_destroy();
+    }
+
+    /**
      * Fetches the variable from session array
      * @param $name
      * @return null
      */
-    function __get($name)
-    {
-       return isset($_SESSION[$name])? $_SESSION[$name] : null;
+    public function get($name){
+        return isset($_SESSION[$name])? $_SESSION[$name] : null;
     }
 
     /**
      * Sets the variable into session array
-     * @param string $name
-     * @param mixed $value
+     * @param $name
+     * @param $value
      */
-    function __set($name, $value)
-    {
-       $_SESSION[$name] = $value;
+    public function set($name, $value){
+        $_SESSION[$name] = $value;
     }
 
     /**
-     *  Destroys all data registered to a current session
+     * Deletes variable from session container
+     * @param $name
      */
-    public function destroy(){
-        session_destroy();
+    public function del($name){
+        if(isset($_SESSION[$name]))
+            unset($_SESSION[$name]);
     }
 }

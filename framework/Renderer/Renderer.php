@@ -9,6 +9,7 @@
 namespace Framework\Renderer;
 
 
+use Framework\DI\Registry;
 use Framework\DI\Service;
 use Framework\Exception\FileException;
 use Framework\Helper\Helper;
@@ -24,7 +25,7 @@ class Renderer
      * Class instance constructor
      * @param $main_template_file
      */
-    public function __construct($main_template_file){
+    public function __construct($main_template_file = null){
         $this->main_template = $main_template_file;
     }
 
@@ -49,8 +50,21 @@ class Renderer
 
         $data['include'] = function($controllerName, $actionName, $params)
                                 {Helper::dispatch($controllerName, $actionName, $params);};
+
         $data['getRoute'] = function($route_name, $params = array())
                                 {return Service::get('router')->buildRoute($route_name, $params);};
+
+        $data['generateToken'] = function(){return Service::get('session')->get('token');};
+
+        $data['route'] = Registry::getConfig('route');
+
+        $data['user'] = Service::get('session')->get('user');
+
+        if(!$wrap) {
+            //Gets messages from session message container to display them in view
+            $flush = Service::get('session')->get('messages') ? Service::get('session')->get('messages') : array();
+            Service::get('session')->del('messages');
+        }
         extract($data);
 
         //Checks if template file exists
