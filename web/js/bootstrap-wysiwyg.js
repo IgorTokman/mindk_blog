@@ -3,6 +3,9 @@
 /*jslint browser:true*/
 (function ($) {
     'use strict';
+
+    $(".fancybox").fancybox();
+
     var readFileIntoDataUrl = function (fileInfo) {
         var loader = $.Deferred(),
             fReader = new FileReader();

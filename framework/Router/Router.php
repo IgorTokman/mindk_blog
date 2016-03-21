@@ -9,6 +9,7 @@
 namespace Framework\Router;
 
 use Framework\DI\Registry;
+use Framework\DI\Service;
 
 class Router
 {
@@ -48,6 +49,8 @@ class Router
             $pattern = '~^' . $pattern . '$~';
 
             if (preg_match($pattern, $url, $params)) {
+                if(strpos($routeName, 'profile') && !Service::get('request')->isPost())
+                    continue;
                 $route_found = $route;
                 $route_found['params'] = array();
                 $route_found['_name'] = $routeName;

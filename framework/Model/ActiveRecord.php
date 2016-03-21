@@ -127,7 +127,6 @@ abstract class ActiveRecord
 
             $query = substr($query, 0, -2);
             $query .= " WHERE id = " . $this->id . ";";
-            echo $query;
         }
         else {
             $query = "INSERT INTO " . $tblName;
