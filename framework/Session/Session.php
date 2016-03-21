@@ -33,6 +33,9 @@ class Session
     private function __construct()
     {
         session_start();
+        $token = $this->get('token');
+        if(!isset($token))
+            $this->set('token', Service::get('security')->generateToken());
     }
 
     private function __clone()
@@ -83,6 +86,17 @@ class Session
     public function set($name, $value){
         $_SESSION[$name] = $value;
     }
+
+    /**
+     * Gets the variable by name from session array
+     * @param $name
+     * @return null
+     */
+    function __get($name)
+    {
+        return isset($_SESSION[$name])? $_SESSION[$name] : null;
+    }
+
 
     /**
      * Deletes variable from session container

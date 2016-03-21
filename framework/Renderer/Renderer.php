@@ -54,7 +54,7 @@ class Renderer
         $data['getRoute'] = function($route_name, $params = array())
                                 {return Service::get('router')->buildRoute($route_name, $params);};
 
-        $data['generateToken'] = function(){return Service::get('session')->get('token');};
+        $data['generateToken'] = function(){echo '<input type="hidden" name="token" value="' . Service::get('session')->get('token') .'"/>';};
 
         $data['route'] = Registry::getConfig('route');
 

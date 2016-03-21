@@ -9,6 +9,8 @@
 namespace Framework\Request;
 
 
+use Framework\DI\Service;
+
 class Request
 {
     /**
@@ -23,7 +25,7 @@ class Request
      * @return bool
      */
     public function isPost(){
-        return $this->getMethod() === "POST";
+        return ($this->getMethod() === "POST" && Service::get('security')->verifyToken());
     }
 
     /**

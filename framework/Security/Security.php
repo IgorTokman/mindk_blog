@@ -15,16 +15,10 @@ use Framework\Security\Model\UserInterface;
 class Security
 {
     /**
-     * Stores current session
-     */
-    public $session;
-
-    /**
      * Security constructor.
      */
     public function __construct()
     {
-        $this->session = Service::get('session');
     }
 
     /**
@@ -32,14 +26,14 @@ class Security
      * @return true if user is authenticated else false
      */
     public function isAuthenticated(){
-        return (!is_null($this->session->get('user')) && $this->verifyToken());
+        return (!is_null(Service::get('session')->get('user')));
     }
 
     /**
      * Clears all user variable for session container
      */
     public function clear(){
-        $this->session->destroy();
+        Service::get('session')->destroy();
     }
 
     /**
@@ -47,7 +41,7 @@ class Security
      * @param UserInterface $user
      */
     public function setUser(UserInterface $user){
-        $this->session->set('user', $user);
+        Service::get('session')->set('user', $user);
     }
 
     /**
@@ -63,7 +57,7 @@ class Security
      * @return bool
      */
     public function verifyToken(){
-        return (isset($_POST['token']) && !is_null($this->session->get('token'))
-            && ($_POST['token'] === $this->session->get('token')));
+        return (isset($_POST['token']) && !is_null(Service::get('session')->get('token'))
+            && ($_POST['token'] === Service::get('session')->get('token')));
     }
 }

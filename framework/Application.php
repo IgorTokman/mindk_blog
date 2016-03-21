@@ -37,11 +37,9 @@ class Application
         Service::set('router', new Router(Registry::getConfig('routes')));
         Service::set('dbConnection', Connection::get(Registry::getConfig('pdo')));
         Service::set('request', new Request());
-        Service::set('session', Session::getInstance());
         Service::set('security', new Security());
+        Service::set('session', Session::getInstance());
         Service::set('renderer', new Renderer(Registry::getConfig('main_layout')));
-
-        Service::get('session')->set('token', Service::get('security')->generateToken());
 
         //Sets the error display mode
         Helper::errorReporting();
@@ -68,6 +66,7 @@ class Application
                 throw new HttpNotFoundException("Route does not found", 404);
         }
         catch(SecurityException $e){
+            Service::get('session')->set('returnUrl', Registry::getConfig('route')['pattern']);
             $response = new ResponseRedirect(Service::get('router')->buildRoute('login'));
         }
         catch(HttpNotFoundException $e){
