@@ -66,6 +66,20 @@ return array(
             'id'      => '\d+',
             '_method' => 'POST'
         )
-
+    ), 'start_edit'      => array(
+        'pattern'       => '/posts/{id}/start_edit',
+        'controller'    => 'CMS\\Controller\\BlogController',
+        'action'        => 'start_edit',
+        '_requirements' => array(
+            'id'      => '\d+'
+        )
+    ),
+    'remove_post'      => array(
+        'pattern'       => '/posts/{id}/remove',
+        'controller'    => 'CMS\\Controller\\BlogController',
+        'action'        => 'remove',
+        '_requirements' => array(
+            'id'      => '\d+'
+        )
     )
 );

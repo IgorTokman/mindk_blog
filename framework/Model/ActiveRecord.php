@@ -40,7 +40,7 @@ abstract class ActiveRecord
      * @param array $params
      * @return array of table objects
      */
-    protected static function findByParams(array $params){
+    public static function findByParams(array $params){
         $pdo = Service::get('dbConnection');
         $result = array();
 

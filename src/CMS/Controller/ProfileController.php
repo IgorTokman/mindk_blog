@@ -8,6 +8,7 @@
 
 namespace CMS\Controller;
 
+use Blog\Model\Post;
 use Blog\Model\User;
 use Framework\Controller\Controller;
 use Framework\DI\Registry;
@@ -19,7 +20,7 @@ class ProfileController extends Controller
     public function getAction()
     {
         if (Service::get('security')->isAuthenticated())
-            return $this->render('get.html', array("table_capt" => "Your Profile Information"));
+            return $this->render('get.html', array('posts' => Post::findByParams(array('user_id' => Service::get('session')->get('user')->id))));
 
         Service::get('session')->set('returnUrl', Registry::getConfig('route')['pattern']);
         return $this->redirect($this->generateRoute('login'));
@@ -38,7 +39,6 @@ class ProfileController extends Controller
                 $user->save();
                 Service::get('security')->setUser($user);
             } catch (DatabaseException $e) {
-                echo $e->getMessage();
                 $errors = array($e->getMessage());
             }
         }
