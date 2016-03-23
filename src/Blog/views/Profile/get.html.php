@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-5 profile_block">
             <span class="pull-left profile glyphicon glyphicon-user" aria-hidden="true"></span>
             <a href="#callback" type="button" class="fancybox edit btn btn-primary">Edit your profile</a>
             <dl class="user-info col-md-3">
@@ -67,7 +67,7 @@
             <?php $generateToken()?>
         </form>
     </div>
-
+</div>
 
 
 

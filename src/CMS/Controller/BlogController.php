@@ -11,11 +11,18 @@ namespace CMS\Controller;
 
 use Blog\Model\Post;
 use Framework\Controller\Controller;
+use Framework\DI\Registry;
+use Framework\DI\Service;
 use Framework\Exception\DatabaseException;
 use Framework\Validation\Validator;
 
 class BlogController extends Controller
 {
+    /**
+     * Performs the deleting an appropriate post
+     * @param $id
+     * @return \Framework\Response\ResponseRedirect
+     */
     public function removeAction($id)
     {
         $post = Post::find($id);
@@ -23,11 +30,25 @@ class BlogController extends Controller
         return $this->redirect($this->generateRoute('profile'));
     }
 
+    /**
+     * Displays the edit window
+     * @param $id
+     * @return \Framework\Response\Response
+     */
     public function start_editAction($id)
     {
-        return $this->render('start_edit.html', array('post' => Post::find($id)));
+        if (Service::get('security')->isAuthenticated())
+            return $this->render('start_edit.html', array('post' => Post::find($id)));
+
+        Service::get('session')->set('returnUrl', $this->generateRoute(Registry::getConfig('route')['_name'], array('id' => $id)));
+        return $this->redirect($this->generateRoute('login'));
     }
 
+    /**
+     * Performs the editing an appropriate post if it possible otherwise shows error messages
+     * @param $id
+     * @return \Framework\Response\Response|\Framework\Response\ResponseRedirect
+     */
     public function editAction($id)
     {
         $errors = array();
@@ -38,22 +59,24 @@ class BlogController extends Controller
                 $post->title = $this->getRequest()->post('title');
                 $post->content = $this->getRequest()->post('content');
 
+                //Verifies if the table record meets the requirement
                 $validator = new Validator($post);
                 if ($validator->isValid()) {
                     $post->save();
                     return $this->redirect($this->generateRoute('profile'));
                 } else {
-                    $error = $validator->getErrors();
+                    $errors = $validator->getErrors();
                 }
 
             } catch (DatabaseException $e) {
-                //echo $e->getMessage();
-                $error = array($e->getMessage());
+                $errors = array($e->getMessage());
             }
         }
+
+        //Displays error messages on the page
         return $this->render(
             'start_edit.html',
-            array('errors' => isset($error)?$error:null, 'post' => Post::find($id))
+            array('errors' => isset($errors)? $errors : null, 'post' => Post::find($id))
         );
     }
 }

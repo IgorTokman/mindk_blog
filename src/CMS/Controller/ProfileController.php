@@ -17,16 +17,25 @@ use Framework\Exception\DatabaseException;
 
 class ProfileController extends Controller
 {
+    /**
+     * Displays profile if it possible otherwise redirects to login page
+     * @return \Framework\Response\Response|\Framework\Response\ResponseRedirect
+     */
     public function getAction()
     {
         if (Service::get('security')->isAuthenticated())
             return $this->render('get.html', array('posts' => Post::findByParams(array('user_id' => Service::get('session')->get('user')->id))));
 
+        //Sets the return page
         Service::get('session')->set('returnUrl', Registry::getConfig('route')['pattern']);
         return $this->redirect($this->generateRoute('login'));
 
     }
 
+    /**
+     * Edits user profile
+     * @return \Framework\Response\ResponseRedirect
+     */
     public function updateAction()
     {
         $errors = array();
@@ -37,7 +46,9 @@ class ProfileController extends Controller
                 $user->role = $this->getRequest()->post('role');
                 $user->email = $this->getRequest()->post('email');
                 $user->save();
+
                 Service::get('security')->setUser($user);
+
             } catch (DatabaseException $e) {
                 $errors = array($e->getMessage());
             }

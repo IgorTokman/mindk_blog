@@ -144,3 +144,7 @@ dd{
 .hidden{
     display: none;
 }
+
+.profile_block{
+    margin-top: 22px;
+}
