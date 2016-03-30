@@ -24,7 +24,8 @@ class Helper
     public static function getViewPath($className){
         $pathParts = explode('\\', $className);
         $ctrlName = array_pop($pathParts);
-        return __DIR__ . '/../../src/Blog/views/' . str_replace('Controller', '', $ctrlName) . '/';
+        $folderName = array_shift($pathParts);
+        return __DIR__ . '/../../src/' . $folderName . '/views/' . str_replace('Controller', '', $ctrlName) . '/';
     }
 
     /**

@@ -63,7 +63,7 @@ class BlogController extends Controller
                 $validator = new Validator($post);
                 if ($validator->isValid()) {
                     $post->save();
-                    return $this->redirect($this->generateRoute('profile'));
+                    return $this->redirect($this->generateRoute('profile'), 'You have successfully edited your article ' . $post->title);
                 } else {
                     $errors = $validator->getErrors();
                 }
