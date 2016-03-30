@@ -9,6 +9,8 @@
 namespace Framework\Response;
 
 
+use Framework\DI\Service;
+
 class Response
 {
     //array of headers for the response
@@ -110,6 +112,8 @@ class Response
     public function send(){
         $this->sendHeaders();
         $this->sendBody();
+        //Launches the appropriate event
+        Service::get('eventManager')->trigger('sendAction', "Prints out HTTP response to the client");
     }
 
     //Sends headers to the client

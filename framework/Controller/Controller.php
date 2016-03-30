@@ -25,6 +25,9 @@ abstract class Controller
      * @return Response
      */
     public function render($layout, $data = array()){
+
+        Service::get('eventManager')->trigger('controllerRender', "Rendering method. Controller \"" . get_class($this) ."\". Layout \"". $layout . "\"");
+
         // The full path to the view for the appropriate controller
         $fullpath = realpath(Helper::getViewPath(get_class($this)) . $layout . '.php');
 
@@ -41,6 +44,8 @@ abstract class Controller
      * @return mixed The URL to the route
      */
     public function generateRoute($route_name, $params = array()){
+        Service::get('eventManager')->trigger('controllerGenerateRoute', "Creates URL by route name \"" . $route_name ."\" and optional array of parameters");
+
         return Service::get('router')->buildRoute($route_name, $params);
     }
 
@@ -51,6 +56,8 @@ abstract class Controller
      * @return ResponseRedirect
      */
     public function redirect($url, $message = null){
+        Service::get('eventManager')->trigger('controllerRedirect', "Redirection to another page. URL \"" . $url . "\"");
+
         if(!is_null($message))
             Service::get('session')->addFlash('info', $message);
 

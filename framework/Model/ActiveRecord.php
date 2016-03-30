@@ -116,6 +116,8 @@ abstract class ActiveRecord
         $pdo = Service::get('dbConnection');
         $fields = $this->getFields();
         $tblName = static::getTable();
+        //Launches the appropriate event
+        Service::get('eventManager')->trigger('tableAction', "Insert or update db table\"" . $tblName . "\"");
 
         //Checks if such id already exists in the table
         if(in_array($this->id, self::getIds()))

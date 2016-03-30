@@ -10,6 +10,7 @@ namespace Framework\Helper;
 
 
 use Framework\DI\Registry;
+use Framework\DI\Service;
 use Framework\Exception\ClassException;
 use Framework\Exception\WrongResponseTypeException;
 use Framework\Response\Response;
@@ -49,8 +50,13 @@ class Helper
                 $actionReflection = $controllerReflection->getMethod($action);
 
                 //Checks if action has the appropriate number of parameters
-                if ($actionReflection->getNumberOfParameters() <= count($params))
+                if ($actionReflection->getNumberOfParameters() <= count($params)) {
+                    //Launches the appropriate event
+                    Service::get('eventManager')->trigger('dispatchAction',
+                        "Created an instance of controller \""  . $controllerName."\" and called an action \"" . $actionName . "\" of that controller");
+
                     $response = $actionReflection->invokeArgs($controller, $params);
+                }
                 else
                     throw new ClassException("Does not match the number of parameters");
 

@@ -47,6 +47,8 @@ class Renderer
      * @throws FileException if template file does not exist
      */
     public function render($template_path, $data = array(), $wrap = true){
+        //Launches the appropriate event
+        Service::get('eventManager')->trigger('renderAction', "Render specified template file \"" . $template_path . "\" with data provided");
 
         $data['include'] = function($controllerName, $actionName, $params)
                                 {Helper::dispatch($controllerName, $actionName, $params);};

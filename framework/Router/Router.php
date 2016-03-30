@@ -66,8 +66,9 @@ class Router
                 break;
             }
         }
+        //Launches the appropriate event
+        Service::get('eventManager')->trigger('parseRoute', "Parsed URL \"" . $url ."\". Generated the array of suitable route \"" . $routeName . "\" and optional parameters");
 
-        Service::get('eventManager')->trigger('parseRoute', "Parsed URL.Generated the array of suitable route and optional parameters");
         return $route_found;
     }
 
