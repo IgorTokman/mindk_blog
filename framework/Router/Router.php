@@ -67,6 +67,7 @@ class Router
             }
         }
 
+        Service::get('eventManager')->trigger('parseRoute', "Parsed URL.Generated the array of suitable route and optional parameters");
         return $route_found;
     }
 

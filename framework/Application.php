@@ -9,6 +9,7 @@
 namespace Framework;
 
 use Framework\Exception\SecurityException;
+use Framework\EventManager\EventManager;
 use Framework\Model\ActiveRecord;
 use Framework\DI\Registry;
 use Framework\DI\Service;
@@ -24,6 +25,7 @@ use Framework\Router\Router;
 use Blog\Model\Post;
 use Framework\Security\Security;
 use Framework\Session\Session;
+use Framework\Logger\Logger;
 
 class Application
 {
@@ -40,9 +42,20 @@ class Application
         Service::set('security', new Security());
         Service::set('session', Session::getInstance());
         Service::set('renderer', new Renderer(Registry::getConfig('main_layout')));
+        Service::set('eventManager', EventManager::getInstance());
+
+        Service::get('eventManager')
+            ->registerEvent('applicationInit')
+            ->registerEvent('parseRoute');
+
+        Service::get('eventManager')
+            ->addListener('Framework\Logger\Logger')
+            ->addListener('Framework\Router\Router');
 
         //Sets the error display mode
         Helper::errorReporting();
+
+        Service::get('eventManager')->trigger('applicationInit', "The start of application");
     }
 
     public function run()
@@ -79,5 +92,6 @@ class Application
         }
 
         $response->send();
+
     }
 }
