@@ -49,8 +49,10 @@ class Router
             $pattern = '~^' . $pattern . '$~';
 
             if (preg_match($pattern, $url, $params)) {
-                if(strpos($routeName, 'profile') && !Service::get('request')->isPost())
+                if(isset($route['_requirements']['_method']) && $route['_requirements']['_method'] === 'POST'
+                    && !Service::get('request')->isPost())
                     continue;
+
                 $route_found = $route;
                 $route_found['params'] = array();
                 $route_found['_name'] = $routeName;

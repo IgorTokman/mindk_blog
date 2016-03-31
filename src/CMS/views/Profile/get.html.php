@@ -63,7 +63,6 @@
             <input type="hidden" class="form-control" value="<?=$user->id?>" name="id">
             <input type="email" class="form-control" value="<?=$user->email?>" required autofocus name="email">
             <input type="text" class="form-control" value="<?=$user->role?>" required autofocus name="role">
-           <!-- <input type="password" class="form-control" placeholder="Enter your new password"  name="password">-->
             <button class="btn btn-lg btn-primary btn-block" type="submit">Edit</button>
             <?php $generateToken()?>
         </form>

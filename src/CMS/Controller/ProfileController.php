@@ -28,7 +28,7 @@ class ProfileController extends Controller
 
         //Sets the return page
         Service::get('session')->set('returnUrl', Registry::getConfig('route')['pattern']);
-        return $this->redirect($this->generateRoute('login'));
+        return $this->redirect($this->generateRoute('login'), 'You need to login');
 
     }
 

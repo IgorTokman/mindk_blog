@@ -66,7 +66,8 @@ return array(
             'id'      => '\d+',
             '_method' => 'POST'
         )
-    ), 'start_edit'      => array(
+    ),
+    'start_edit'      => array(
         'pattern'       => '/posts/{id}/start_edit',
         'controller'    => 'CMS\\Controller\\BlogController',
         'action'        => 'start_edit',

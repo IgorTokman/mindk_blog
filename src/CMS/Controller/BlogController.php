@@ -27,7 +27,7 @@ class BlogController extends Controller
     {
         $post = Post::find($id);
         $post->delete();
-        return $this->redirect($this->generateRoute('profile'));
+        return $this->redirect($this->generateRoute('profile'), 'You have successfully removed your article "' . $post->title . '"');
     }
 
     /**
@@ -38,10 +38,13 @@ class BlogController extends Controller
     public function start_editAction($id)
     {
         if (Service::get('security')->isAuthenticated())
-            return $this->render('start_edit.html', array('post' => Post::find($id)));
+            if(Post::find($id)->user_id === Service::get('session')->get('user')->id)
+                return $this->render('start_edit.html', array('post' => Post::find($id)));
+            else
+                return $this->redirect($this->generateRoute('profile'), '"' . Post::find($id)->title . '".' . ' It is not your article');
 
         Service::get('session')->set('returnUrl', $this->generateRoute(Registry::getConfig('route')['_name'], array('id' => $id)));
-        return $this->redirect($this->generateRoute('login'));
+        return $this->redirect($this->generateRoute('login'), 'You need to login');
     }
 
     /**
@@ -63,7 +66,7 @@ class BlogController extends Controller
                 $validator = new Validator($post);
                 if ($validator->isValid()) {
                     $post->save();
-                    return $this->redirect($this->generateRoute('profile'), 'You have successfully edited your article ' . $post->title);
+                    return $this->redirect($this->generateRoute('profile'), 'You have successfully edited your article "' . $post->title . '"');
                 } else {
                     $errors = $validator->getErrors();
                 }
