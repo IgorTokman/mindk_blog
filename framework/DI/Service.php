@@ -20,7 +20,7 @@ class Service
     /**
      * Returns the services registered in the services container
      * @param $serviceName
-     * @return sercive  for serviceName or null if it does not exist
+     * @return service  for serviceName or null if it does not exist
      */
     public static function get($serviceName){
         return array_key_exists($serviceName, self::$services) ? self::$services[$serviceName] : null;

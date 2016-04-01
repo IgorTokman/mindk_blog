@@ -43,6 +43,7 @@ class Application
         Service::set('session', Session::getInstance());
         Service::set('renderer', new Renderer(Registry::getConfig('main_layout')));
         Service::set('eventManager', EventManager::getInstance());
+
         //Registers the events
         Service::get('eventManager')
             ->registerEvent('applicationInit')
@@ -53,12 +54,14 @@ class Application
             ->registerEvent('controllerRedirect')
             ->registerEvent('sendAction')
             ->registerEvent('renderAction');
+
         //Attaches a new listener
         Service::get('eventManager')
             ->addListener('Framework\Logger\Logger');
 
         //Sets the error display mode
         Helper::errorReporting();
+
         //Launches the appropriate event
         Service::get('eventManager')->trigger('applicationInit', "The start of application");
     }
