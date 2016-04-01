@@ -32,7 +32,7 @@ $getErrorBody = function ($field) use ($errors){
                 <strong>Error!</strong> <?php echo $error ?>
             </div>
         <?php } ?>
-
+        <div id="edit_post_<?=$post->id?>">
         <form class="form-horizontal" role="form" method="post" id="post-form" action="<?php echo $action ?>">
             <div class="form-group <?php echo $getValidationClass('title') ?>">
                 <label class="col-sm-2 control-label">Title</label>
@@ -117,5 +117,6 @@ $getErrorBody = function ($field) use ($errors){
                 <a href="/" class="btn btn-danger">Cancel</a>
             </div>
         </form>
+        </div>
     </div>
 </div>

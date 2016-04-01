@@ -18,6 +18,8 @@ $activeIfRoute = function ($item) use (&$route) {
     <link href="/css/bootstrap-theme.min.css" type="text/css" rel="stylesheet"/>
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="/libs/fancybox/jquery.fancybox.css" />
+
     <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700' rel='stylesheet' type='text/css'>
     <link href="/css/theme.css" rel="stylesheet">
 
@@ -83,7 +85,13 @@ $activeIfRoute = function ($item) use (&$route) {
 <script type="application/javascript" src="/js/jquery.min.js"></script>
 <script type="application/javascript" src="/js/bootstrap.min.js"></script>
 <script type="application/javascript" src="/js/jquery.hotkeys.js"></script>
+
+<script src="/libs/fancybox/jquery.fancybox.pack.js"></script>
+<script src="/libs/countdown/jquery.plugin.js"></script>
+<script src="/libs/countdown/jquery.countdown.min.js"></script>
+
 <script type="application/javascript" src="/js/bootstrap-wysiwyg.js"></script>
+
 <script type="application/javascript">
     $(document).ready(function () {
         $('#editor').wysiwyg();

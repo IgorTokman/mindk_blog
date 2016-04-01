@@ -4,9 +4,10 @@ return array(
     'mode'        => 'dev',
     'routes'      => include('routes.php'),
     'main_layout' => __DIR__.'/../../src/Blog/views/layout.html.php',
+    'error_400'   => __DIR__.'/../../src/Blog/views/400.html.php',
     'error_500'   => __DIR__.'/../../src/Blog/views/500.html.php',
     'pdo'         => array(
-        'dns'      => 'mysql:dbname=education;host=192.168.64.15',
+        'dns'      => 'mysql:dbname=education;host=localhost',
         'user'     => 'education',
         'password' => 'n29OB4uIYGii'
     ),

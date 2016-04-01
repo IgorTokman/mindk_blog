@@ -8,6 +8,9 @@
 
 namespace Framework\Router;
 
+use Framework\DI\Registry;
+use Framework\DI\Service;
+
 class Router
 {
     /**
@@ -29,10 +32,13 @@ class Router
      * Parses URL
      * Generates array of suitable route and optional parameters
      * @param $url
+     * @return null | array of appropriate route and params
      */
     public function parseRoute($url)
     {
-        foreach(self::$map as $route)
+        $route_found = null;
+
+        foreach(self::$map as $routeName => $route)
         {
             $pattern = $route['pattern'];
 
@@ -43,7 +49,13 @@ class Router
             $pattern = '~^' . $pattern . '$~';
 
             if (preg_match($pattern, $url, $params)) {
+                if(isset($route['_requirements']['_method']) && $route['_requirements']['_method'] === 'POST'
+                    && !Service::get('request')->isPost())
+                    continue;
+
                 $route_found = $route;
+                $route_found['params'] = array();
+                $route_found['_name'] = $routeName;
 
                 //Gets associative array of params
                 if (count($params) > 1) {
@@ -52,9 +64,12 @@ class Router
                     $route_found['params'] = $params;
                 }
 
+                Registry::setConfig('route', $route_found);
                 break;
             }
         }
+        //Launches the appropriate event
+        Service::get('eventManager')->trigger('parseRoute', "Parsed URL \"" . $url ."\". Generated the array of suitable route \"" . $routeName . "\" and optional parameters");
 
         return $route_found;
     }

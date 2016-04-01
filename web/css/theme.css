@@ -117,3 +117,34 @@ div[data-role="editor-toolbar"] {
 .has-error #editor{
     border-color: #a94442;
 }
+
+.profile{
+    font-size: 7em;
+    background-color: lightseagreen;
+    padding: 4%;
+    border-radius: 50%;
+    border: 2px solid #2a6496;
+}
+
+.user-info{
+    margin-left: 42px;
+    margin-top: 12px;
+}
+
+dd{
+    margin-bottom: 10px;
+}
+
+.btn.edit{
+    float: left;
+    margin-top: 180px;
+    margin-left: -135px;
+}
+
+.hidden{
+    display: none;
+}
+
+.profile_block{
+    margin-top: 22px;
+}
